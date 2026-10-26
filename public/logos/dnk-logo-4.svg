@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="110" viewBox="0 0 400 110">
+  <defs>
+    <linearGradient id="g4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bb1919"/>
+      <stop offset="100%" stop-color="#6e0b0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="110" fill="#0b0c0d"/>
+  <path d="M130 28 L70 55 L130 82 L190 82 L250 55 L190 28 Z" fill="url(#g4)"/>
+  <text x="160" y="56" font-family="Helvetica, Arial, sans-serif" font-weight="900" font-size="40" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">N</text>
+  <text x="120" y="88" font-family="Georgia, serif" font-weight="800" font-size="30" fill="#f2f4f4" text-anchor="middle" letter-spacing="-0.02em">DIGITAL NEWS KENYA</text>
+</svg>

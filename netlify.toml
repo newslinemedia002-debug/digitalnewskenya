@@ -1,0 +1,5 @@
+[build]
+  command = "next build --webpack"
+
+[build.environment]
+  NODE_VERSION = "22"

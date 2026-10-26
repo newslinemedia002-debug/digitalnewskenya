@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="96" viewBox="0 0 400 96">
+  <rect width="400" height="96" fill="#0b0c0d"/>
+  <rect x="44" y="24" width="44" height="44" fill="none" stroke="#bb1919" stroke-width="4" rx="4"/>
+  <text x="66" y="54" font-family="Helvetica, Arial, sans-serif" font-weight="900" font-size="34" fill="#bb1919" text-anchor="middle" dominant-baseline="middle">N</text>
+  <text x="112" y="52" font-family="Georgia, serif" font-weight="800" font-size="30" fill="#f2f4f4" letter-spacing="-0.02em">Digital News</text>
+  <text x="112" y="82" font-family="Georgia, serif" font-weight="600" font-size="20" fill="#a9adb2" letter-spacing="0.01em">Kenya</text>
+</svg>

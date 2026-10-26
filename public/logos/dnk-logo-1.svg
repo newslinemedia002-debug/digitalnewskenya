@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="100" viewBox="0 0 400 100">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bb1919"/>
+      <stop offset="100%" stop-color="#8a1414"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="100" fill="#0b0c0d"/>
+  <text x="70" y="58" font-family="Georgia, serif" font-weight="800" font-size="46" fill="url(#g1)" letter-spacing="-0.03em">DIGITAL</text>
+  <text x="70" y="90" font-family="Georgia, serif" font-weight="700" font-size="32" fill="#f2f4f4" letter-spacing="-0.02em">NEWS KENYA</text>
+  <circle cx="38" cy="42" r="26" fill="url(#g1)"/>
+  <text x="30" y="50" font-family="Helvetica, Arial, sans-serif" font-weight="900" font-size="42" fill="#ffffff" text-anchor="middle">N</text>
+</svg>
