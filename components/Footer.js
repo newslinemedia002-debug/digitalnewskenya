@@ -8,6 +8,7 @@ export default function Footer() {
       <div className={`container ${styles.inner}`}>
         <Link href="/" className={styles.logo} aria-label={`${SITE_NAME} home`}>
           <img src="/logo.svg" alt={SITE_NAME} className={styles.logoImg} />
+          <img src="/logo-light.svg" alt="" aria-hidden="true" className={styles.logoImgLight} loading="lazy" />
         </Link>
 
         <nav className={styles.cols} aria-label="Footer">

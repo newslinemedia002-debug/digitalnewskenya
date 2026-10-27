@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CATEGORIES } from '@/lib/site'
+import ThemeToggle from '@/components/ThemeToggle'
 import styles from './Header.module.css'
 
 const SECTIONS = [{ slug: 'home', label: 'Home', href: '/' }, ...CATEGORIES.map((c) => ({ slug: c.slug, label: c.label, href: `/section/${c.slug}` }))]
@@ -93,9 +94,11 @@ export default function Header() {
 
         <Link href="/" className={styles.logo} aria-label="Digital News Kenya home">
           <img src="/logo.svg" alt="Digital News Kenya" className={styles.logoImg} />
+          <img src="/logo-light.svg" alt="" aria-hidden="true" className={styles.logoImgLight} loading="lazy" />
         </Link>
 
         <div className={styles.auth}>
+          <ThemeToggle />
           {profile === null ? (
             <span className={styles.authLoading} aria-hidden="true" />
           ) : profile === false ? (

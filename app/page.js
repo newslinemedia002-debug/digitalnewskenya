@@ -148,6 +148,27 @@ export default async function HomePage() {
   )
   const businessWire = [...businessTail, ...businessExtra].slice(0, 8)
 
+  // The breaking bar cycles through the top headlines like a ticker: the
+  // flagged breaking story first, then recent own stories, then the wire.
+  const seenHrefs = new Set()
+  const breakingItems = [
+    ...(breaking ? [{ href: `/news/${breaking.slug}`, title: breaking.title }] : []),
+    ...top
+      .filter((a) => a.id !== lead?.id && a.id !== breaking?.id)
+      .slice(0, 3)
+      .map((a) => ({ href: `/news/${a.slug}`, title: a.title })),
+    ...[...kenyaFeed, ...worldFeed]
+      .filter((w) => w.id !== lead?.id)
+      .slice(0, 5)
+      .map((w) => ({ href: `/wire/${w.id}`, title: w.title })),
+  ]
+    .filter((i) => {
+      if (!i.title || seenHrefs.has(i.href)) return false
+      seenHrefs.add(i.href)
+      return true
+    })
+    .slice(0, 6)
+
   const kenyaGrid = mixGrid(kenyaOwn, kenyaMix)
   const worldGrid = mixGrid(worldOwn, worldMix)
   const businessGrid = mixGrid(businessOwn, businessWire)
@@ -161,7 +182,9 @@ export default async function HomePage() {
   return (
     <>
       <div className="container">
-        {breaking && <div style={{ marginTop: 14 }}><BreakingStrip article={breaking} /></div>}
+        {breakingItems.length > 0 && (
+          <div style={{ marginTop: 14 }}><BreakingStrip items={breakingItems} /></div>
+        )}
 
         {lead ? (
           <div className={styles.leadGrid3}>

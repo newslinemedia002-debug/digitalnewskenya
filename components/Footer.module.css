@@ -24,6 +24,16 @@
   display: block;
 }
 
+/* dark-wordmark variant, shown only on the light theme */
+.logoImgLight {
+  display: none;
+  height: 76px;
+  width: auto;
+  border-radius: 8px;
+}
+[data-theme='light'] .logoImg { display: none; }
+[data-theme='light'] .logoImgLight { display: block; }
+
 .cols {
   display: grid;
   grid-template-columns: repeat(4, minmax(130px, auto));

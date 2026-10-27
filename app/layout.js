@@ -32,10 +32,15 @@ const orgJsonLd = {
   logo: `${siteUrl}/logo.svg`,
 }
 
+// Applies the saved theme before first paint to avoid a flash of the wrong
+// colours; falls back to the default dark theme.
+const themeInit = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark')t='dark';document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='dark'}})()`
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en-KE">
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
