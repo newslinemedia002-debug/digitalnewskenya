@@ -36,7 +36,7 @@ export default async function AdminUsersPage({ searchParams }) {
     <>
       <h1 className={styles.title}>Users</h1>
       <p className={styles.sub}>
-        Only admins can add people to Newswire. Authors write; admins also publish and moderate.
+        Only admins can add people to Digital News Kenya. Authors write; admins also publish and moderate.
       </p>
 
       {errorMsg && <div className="alert alertError" role="alert">{errorMsg}</div>}

@@ -3,6 +3,7 @@
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { signIn } from '@/app/login/actions'
+import { SITE_NAME } from '@/lib/site'
 
 export default function LoginForm({ next }) {
   const [state, action, pending] = useActionState(signIn, null)
@@ -42,7 +43,7 @@ export default function LoginForm({ next }) {
         {pending ? 'Signing in…' : 'Sign in'}
       </button>
       <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 16, marginBottom: 0 }}>
-        No account? Newswire does not have open registration — an administrator adds users.{' '}
+        No account? {SITE_NAME} does not have open registration — an administrator adds users.{' '}
         <Link href="/">Back to the front page</Link>
       </p>
     </form>

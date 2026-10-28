@@ -20,6 +20,8 @@ export default async function sitemap() {
       priority: 0.8,
     })),
     { url: `${base}/search`, changeFrequency: 'weekly', priority: 0.3 },
+    { url: `${base}/terms`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${base}/cookies`, changeFrequency: 'yearly', priority: 0.2 },
   ]
 
   let articles = []

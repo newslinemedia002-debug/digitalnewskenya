@@ -70,15 +70,31 @@ export default async function ArticlePage({ params }) {
       '@type': 'NewsMediaOrganization',
       name: SITE_NAME,
       url: siteUrl(),
-      logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.svg` },
+      logo: { '@type': 'ImageObject', url: `${siteUrl()}/logo.svg` },
     },
     mainEntityOfPage: `${siteUrl()}/news/${article.slug}`,
     ...(image ? { image: [image] } : {}),
   }
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: categoryLabel(article.category),
+        item: `${siteUrl()}/section/${article.category}`,
+      },
+      { '@type': 'ListItem', position: 3, name: article.title }
+    ],
+  }
+
   return (
     <div className="container">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <ViewTracker slug={article.slug} />
 
       <nav className={styles.breadcrumb} aria-label="Breadcrumb">

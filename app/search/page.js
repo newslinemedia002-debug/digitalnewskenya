@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Search',
-  description: 'Search Newswire’s published stories.',
+  description: 'Search published stories on Digital News Kenya.',
+  alternates: { canonical: '/search' },
 }
 
 export default async function SearchPage({ searchParams }) {

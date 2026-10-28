@@ -10,6 +10,18 @@ export const metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  keywords: [
+    'Kenya news',
+    'breaking news Kenya',
+    'news Kenya',
+    'Nairobi news',
+    'Kenya politics',
+    'Kenya business news',
+    'Africa news',
+    'Kenya technology news',
+    'world news',
+    'Digital News Kenya',
+  ],
   applicationName: SITE_NAME,
   openGraph: {
     siteName: SITE_NAME,
@@ -24,12 +36,35 @@ export const viewport = {
   themeColor: '#bb1919',
 }
 
-const orgJsonLd = {
+// Organization + WebSite schema so Google and AI answer engines can read who
+// publishes the site and offer a sitelinks search box.
+const schemaJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'NewsMediaOrganization',
-  name: SITE_NAME,
-  url: siteUrl(),
-  logo: `${siteUrl}/logo.svg`,
+  '@graph': [
+    {
+      '@type': 'NewsMediaOrganization',
+      name: SITE_NAME,
+      url: siteUrl(),
+      logo: { '@type': 'ImageObject', url: `${siteUrl()}/logo.svg` },
+      sameAs: [],
+    },
+    {
+      '@type': 'WebSite',
+      name: SITE_NAME,
+      url: siteUrl(),
+      description: SITE_DESCRIPTION,
+      inLanguage: 'en-KE',
+      publisher: { '@type': 'NewsMediaOrganization', name: SITE_NAME, url: siteUrl() },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${siteUrl()}/search?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
 }
 
 // Applies the saved theme before first paint to avoid a flash of the wrong
@@ -43,7 +78,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }}
         />
         <Header />
         <main>{children}</main>

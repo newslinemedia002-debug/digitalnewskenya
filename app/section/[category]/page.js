@@ -4,7 +4,7 @@ import { createPublicClient, createAdminClient } from '@/lib/supabase/server'
 import { getByCategory, LIST_FIELDS } from '@/lib/articles'
 import { loadWire } from '@/lib/feeds'
 import { wireFor } from '@/lib/wirematch'
-import { CATEGORIES, categoryLabel } from '@/lib/site'
+import { CATEGORIES, categoryLabel, SITE_NAME, siteUrl } from '@/lib/site'
 import MixedGrid, { mixGrid } from '@/components/MixedGrid'
 import styles from '@/components/Stories.module.css'
 
@@ -18,8 +18,18 @@ export async function generateMetadata({ params }) {
   const { category } = await params
   const label = categoryLabel(category)
   return {
-    title: `${label} news`,
-    description: `The latest ${label} stories, analysis and breaking news from Newswire.`,
+    title: `${label} news — latest ${label} headlines`,
+    description: `The latest ${label} stories, analysis and breaking news from Kenya and around the world, live from ${SITE_NAME}.`,
+    keywords: [`${label} news`, `${label} news Kenya`, `${label} headlines`, 'Kenya news'],
+    alternates: { canonical: `/section/${category}` },
+    openGraph: {
+      title: `${label} news`,
+      description: `The latest ${label} stories, analysis and breaking news from ${SITE_NAME}.`,
+      url: `/section/${category}`,
+      siteName: SITE_NAME,
+      type: 'website',
+      locale: 'en_KE',
+    },
   }
 }
 
@@ -67,8 +77,23 @@ export default async function SectionPage({ params, searchParams }) {
   // Page 1 interleaves the wire; deeper pages stay article-only pagination.
   const entries = page === 1 ? mixGrid(articles, wireItems) : articles.map((a) => ({ wire: false, item: a }))
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl() },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: label,
+        item: `${siteUrl()}/section/${category}`,
+      },
+    ],
+  }
+
   return (
     <div className="container">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <h1 className="sectionTitle" style={{ marginTop: 24 }}>
         {label}
       </h1>
