@@ -68,7 +68,8 @@ button { font-family: inherit; }
   outline-offset: 1px;
 }
 
-::selection { background: #ffe9e9; }
+/* readable on both themes: blue highlight, white text */
+::selection { background: #1d4ed8; color: #ffffff; }
 
 /* ============ layout helpers ============ */
 .container {

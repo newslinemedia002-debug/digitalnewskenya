@@ -53,9 +53,11 @@
 .hero img { width: 100%; height: 100%; object-fit: cover; }
 
 .layout {
+  /* Single flow like the reference news page: article first, then the
+     related / most-read blocks underneath — never an empty side column. */
   display: grid;
-  grid-template-columns: minmax(0, 720px) 300px;
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 40px;
   align-items: start;
 }
 
@@ -64,10 +66,17 @@
   font-size: 19px;
   line-height: 1.6;
   color: var(--ink);
+  max-width: 780px;
 }
 .body p { margin: 0 0 22px; }
 
-.aside { display: flex; flex-direction: column; gap: 32px; }
+.aside {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  align-items: start;
+}
+.aside > * { max-width: 640px; min-width: 0; }
 
 .tags {
   display: flex;
@@ -92,6 +101,6 @@
 }
 
 @media (max-width: 1000px) {
-  .layout { grid-template-columns: 1fr; gap: 36px; }
+  .layout { grid-template-columns: 1fr; gap: 32px; }
   .headline { max-width: none; }
 }
