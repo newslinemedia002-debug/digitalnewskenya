@@ -41,6 +41,48 @@ Volume tiers used below: **H** = high (broad head term), **M** = medium
 Every P1/P2 keyword above is wired to exactly one page — no page targets two
 competing clusters (one H1 per page, section H1 = section label).
 
+## Step 2b — Keywords harvested from live content + Search Console
+
+Batch two, derived from what the newsroom has actually published and from the
+queries Google already shows us for. Search Console positions (first 24 h of
+data, 29 Oct 2026):
+
+| Live query we already rank for | Position | Verdict |
+| --- | --- | --- |
+| trump administration kicks out cuban diplomat… | 8.0 | Page 1 — news queries work |
+| the new frontier for ads is racist cartoon ai… | 10.0 | Page 1 — wire headlines index fast |
+| business news kenya today | 45.0 | Page 5 → target of the new `/section/business` title |
+| business kenya | 74.0 | Page 8 → same page, keyword-rich title + intro |
+| digital newspaper kenya | 92.0 | Page 10 → brand/head term added to site meta |
+
+New clusters from live headlines, mapped to their target pages:
+
+| Cluster | Example query | Target page |
+| --- | --- | --- |
+| Kindiki / Ruto / 2027 politics | "kindiki ruto 2027" | `/section/kenya` (title + intro) |
+| Nairobi banking — Co-op, KCB, Equity | "co-op bank leads kcb equity" | `/section/business` |
+| Nairobi startups & venture funding | "nairobi startups funding" | `/section/tech` + `/section/business` |
+| Safaricom (jobs, AI deepfakes, promotions) | "safaricom news" | `/section/tech` |
+| ICT / media attachment & training | "ict attachment opportunities kenya" | own articles (`/news/[slug]`) |
+| Rugby — Impala Floodlit | "impala floodlit 2026" | own article + `/section/entertainment` |
+| Digital literacy programme | "kenya digital literacy programme" | `/section/kenya` / `/section/tech` |
+| Kenya–Russia / global markets | "kenya russia economic ties" | `/section/world` + `/section/business` |
+
+Applied in code: `SECTION_SEO` in `lib/site.js` gives every section a
+query-shaped `<title>`, meta description, keywords list and an intro paragraph
+rendered under the H1.
+
+**Honest note on the `keywords` meta tag:** Google ignores it — it carries no
+ranking weight. It is kept for other engines and as documentation. The tags
+that actually move rankings are `<title>`, the H1, the intro copy, and having
+pages that match intent; those are where this batch is applied.
+
+**What actually closes a page-5 → page-1 gap** (in rough order): exact-match
+intent in the title/H1 (done above), more depth than the incumbent (news +
+analysis, 600+ words), internal links from the homepage wire bands (already
+wired), backlinks from credible Kenyan domains, consistent publishing cadence,
+and time — a 1-day-old domain climbs in weeks, not hours.
+
 ## Step 3 — Site architecture (implemented)
 
 ```

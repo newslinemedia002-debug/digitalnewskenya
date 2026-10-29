@@ -4,7 +4,7 @@ import { createPublicClient, createAdminClient } from '@/lib/supabase/server'
 import { getByCategory, LIST_FIELDS } from '@/lib/articles'
 import { loadWire } from '@/lib/feeds'
 import { wireFor } from '@/lib/wirematch'
-import { CATEGORIES, categoryLabel, SITE_NAME, siteUrl } from '@/lib/site'
+import { CATEGORIES, categoryLabel, SITE_NAME, siteUrl, sectionSeo } from '@/lib/site'
 import MixedGrid, { mixGrid } from '@/components/MixedGrid'
 import styles from '@/components/Stories.module.css'
 
@@ -17,14 +17,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { category } = await params
   const label = categoryLabel(category)
+  const seo = sectionSeo(category)
   return {
-    title: `${label} news — latest ${label} headlines`,
-    description: `The latest ${label} stories, analysis and breaking news from Kenya and around the world, live from ${SITE_NAME}.`,
-    keywords: [`${label} news`, `${label} news Kenya`, `${label} headlines`, 'Kenya news'],
+    title: seo.title,
+    description: seo.description,
+    keywords: seo.keywords,
     alternates: { canonical: `/section/${category}` },
     openGraph: {
-      title: `${label} news`,
-      description: `The latest ${label} stories, analysis and breaking news from ${SITE_NAME}.`,
+      title: seo.title,
+      description: seo.description,
       url: `/section/${category}`,
       siteName: SITE_NAME,
       type: 'website',
@@ -74,6 +75,7 @@ export default async function SectionPage({ params, searchParams }) {
   const articles = data || []
   const totalPages = Math.max(1, Math.ceil((count || 0) / PAGE_SIZE))
   const label = categoryLabel(category)
+  const seo = sectionSeo(category)
   // Page 1 interleaves the wire; deeper pages stay article-only pagination.
   const entries = page === 1 ? mixGrid(articles, wireItems) : articles.map((a) => ({ wire: false, item: a }))
 
@@ -97,6 +99,20 @@ export default async function SectionPage({ params, searchParams }) {
       <h1 className="sectionTitle" style={{ marginTop: 24 }}>
         {label}
       </h1>
+
+      {seo.intro && (
+        <p
+          style={{
+            color: 'var(--muted)',
+            fontSize: 15,
+            lineHeight: 1.5,
+            maxWidth: '72ch',
+            margin: '6px 0 4px',
+          }}
+        >
+          {seo.intro}
+        </p>
+      )}
 
       {entries.length === 0 ? (
         <div className="empty">
