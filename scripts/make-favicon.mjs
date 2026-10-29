@@ -90,3 +90,42 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.
 `
 writeFileSync(OUT, svg)
 console.log(`app/icon.svg: globe band y=${y0}-${y1} x=${x0}-${x1} (${bw}x${bh}), scaled to ${gw}x${gh} in ${SIZE}x${SIZE}, ${(svg.length / 1024).toFixed(0)} KB`)
+
+// --- raster fallbacks ---
+// Crawlers (Google included) probe /favicon.ico first and many ignore an
+// SVG-only declaration, so emit a PNG icon plus a real ICO containing the
+// same globe at 48px and 16px. ICO entries embed PNG data directly.
+const pngAt = (px) => sharp(padded).resize(px, px).png().toBuffer()
+const png48 = await pngAt(48)
+const png16 = await pngAt(16)
+const png96 = await pngAt(96)
+
+function icoFromPngs(parts) {
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0) // reserved
+  header.writeUInt16LE(1, 2) // type: icon
+  header.writeUInt16LE(parts.length, 4)
+  let offset = 6 + 16 * parts.length
+  const entries = []
+  for (const { size, buf } of parts) {
+    const e = Buffer.alloc(16)
+    e.writeUInt8(size >= 256 ? 0 : size, 0)
+    e.writeUInt8(size >= 256 ? 0 : size, 1)
+    e.writeUInt8(0, 2) // palette colours
+    e.writeUInt8(0, 3) // reserved
+    e.writeUInt16LE(1, 4) // colour planes
+    e.writeUInt16LE(32, 6) // bits per pixel
+    e.writeUInt32LE(buf.length, 8)
+    e.writeUInt32LE(offset, 12)
+    offset += buf.length
+    entries.push(e)
+  }
+  return Buffer.concat([header, ...entries, ...parts.map((p) => p.buf)])
+}
+
+writeFileSync('app/icon.png', png96)
+writeFileSync('app/favicon.ico', icoFromPngs([
+  { size: 48, buf: png48 },
+  { size: 16, buf: png16 },
+]))
+console.log('app/icon.png: 96x96, app/favicon.ico: 48+16 (PNG-in-ICO)')
