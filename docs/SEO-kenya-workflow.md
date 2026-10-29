@@ -154,3 +154,24 @@ Google verification token: `public/google363e6b1edc90e531.html`
    SEO fields derive automatically).
 4. Schema snippets → Step 6 table (live in the files listed).
 5. Launch checklist → Step 8.
+
+## Step 9 — AI visibility (being cited by ChatGPT, Gemini, Perplexity, AI Mode)
+
+- **`/llms.txt`** (`app/llms.txt/route.js`) — Markdown guide to the newsroom in the
+  llmstxt.org format: what we cover, section links, RSS and legal pages.
+- **`robots.txt`** (`app/robots.js`) — explicit allow groups for the AI crawlers:
+  `OAI-SearchBot` + `ChatGPT-User` (ChatGPT search), `PerplexityBot`,
+  `Claude-SearchBot`/`Claude-User`, `Googlebot-News`, plus the training crawlers
+  (`GPTBot`, `ClaudeBot`, `Google-Extended`, `CCBot`, `Bytespider`) so nothing
+  public is hidden from AI systems. Private areas stay disallowed for all.
+- **Google Preferred Sources button** (`components/PreferredSource.js`, rendered in
+  the footer) — Google's official `google-add-preferred-source-btn`; readers who click
+  it rank us first in Top Stories and get us highlighted in AI Mode / AI Overviews.
+  Eligibility: domain-level sites only, and the property must be opted into Google's
+  generative AI features. Fallback link: `google.com/preferences/source?q=digitalnewskenya.co.ke`.
+- **No special "AI schema" exists** — Google states AI Overviews/AI Mode use normal
+  Search eligibility, so indexability + NewsArticle/Breadcrumb schema (Step 6) is the
+  real mechanism. Do not add `nosnippet`/`noimageindex` anywhere.
+- **Measuring:** AI traffic lands in Search Console's Web search type; Bing Webmaster
+  Tools has an AI Performance report with citation counts.
+

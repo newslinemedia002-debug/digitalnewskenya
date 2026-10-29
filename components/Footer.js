@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { CATEGORIES, SITE_NAME } from '@/lib/site'
+import PreferredSource from './PreferredSource'
 import styles from './Footer.module.css'
 
 export default function Footer() {
@@ -35,6 +36,8 @@ export default function Footer() {
             <Link href="/cookies">Cookies policy</Link>
           </div>
         </nav>
+
+        <PreferredSource />
       </div>
       <div className={styles.bottom}>
         <div className="container">
