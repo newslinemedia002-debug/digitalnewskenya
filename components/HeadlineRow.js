@@ -30,7 +30,7 @@ export default function HeadlineRow({ entry }) {
           </div>
           {img && (
             <div className={styles.feedThumb}>
-              <img src={img} alt="" loading="lazy" referrerPolicy="no-referrer" />
+              <img src={img} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
             </div>
           )}
         </div>

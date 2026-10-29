@@ -20,7 +20,7 @@ export default function StoryCard({ article, variant = 'card' }) {
     <article className={`${styles.card} ${styles[variant]}`}>
       {showImage && article.cover_image_url && (
         <Link href={href} className={styles.cardMedia} tabIndex={-1} aria-hidden="true">
-          <img src={article.cover_image_url} alt="" loading={variant === 'lead' ? 'eager' : 'lazy'} referrerPolicy="no-referrer" />
+          <img src={article.cover_image_url} alt={article.title} loading={variant === 'lead' ? 'eager' : 'lazy'} referrerPolicy="no-referrer" />
         </Link>
       )}
       {article.is_breaking && variant === 'lead' && (

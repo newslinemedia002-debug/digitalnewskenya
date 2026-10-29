@@ -23,7 +23,10 @@ export async function generateMetadata({ params }) {
   return {
     title: article.title,
     description: article.excerpt,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      types: { 'application/rss+xml': '/feed.xml' },
+    },
     openGraph: {
       title: article.title,
       description: article.excerpt,
@@ -62,6 +65,7 @@ export default async function ArticlePage({ params }) {
     '@type': 'NewsArticle',
     headline: article.title,
     description: article.excerpt,
+    keywords: [categoryLabel(article.category)],
     datePublished: article.published_at || article.created_at,
     dateModified: article.updated_at,
     articleSection: categoryLabel(article.category),

@@ -27,6 +27,18 @@ export const metadata = {
     'Digital News Kenya',
   ],
   applicationName: SITE_NAME,
+  // Permissive preview hints: allow large image previews (Google Discover /
+  // image search) and let Google choose snippet length — including content
+  // usable in AI Overviews and AI Mode.
+  robots: {
+    index: true,
+    follow: true,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+  },
+  alternates: {
+    types: { 'application/rss+xml': '/feed.xml' },
+  },
   openGraph: {
     siteName: SITE_NAME,
     type: 'website',

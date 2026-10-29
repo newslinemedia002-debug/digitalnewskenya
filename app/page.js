@@ -43,7 +43,10 @@ export async function generateMetadata() {
   return {
     title,
     description,
-    alternates: { canonical: '/' },
+    alternates: {
+      canonical: '/',
+      types: { 'application/rss+xml': '/feed.xml' },
+    },
     openGraph: og,
     twitter: {
       card: image ? 'summary_large_image' : 'summary',

@@ -22,7 +22,10 @@ export async function generateMetadata({ params }) {
     title: seo.title,
     description: seo.description,
     keywords: seo.keywords,
-    alternates: { canonical: `/section/${category}` },
+    alternates: {
+      canonical: `/section/${category}`,
+      types: { 'application/rss+xml': '/feed.xml' },
+    },
     openGraph: {
       title: seo.title,
       description: seo.description,

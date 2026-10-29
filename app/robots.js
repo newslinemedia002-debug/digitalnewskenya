@@ -34,6 +34,6 @@ export default function robots() {
         disallow: PRIVATE,
       },
     ],
-    sitemap: `${siteUrl()}/sitemap.xml`,
+    sitemap: [`${siteUrl()}/sitemap.xml`, `${siteUrl()}/sitemap-news.xml`],
   }
 }

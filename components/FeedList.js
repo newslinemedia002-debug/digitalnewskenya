@@ -25,7 +25,7 @@ export default function FeedList({ items, withThumbs = false }) {
               </div>
               {withThumbs && item.image_url && (
                 <div className={styles.feedThumb}>
-                  <img src={item.image_url} alt="" loading="lazy" referrerPolicy="no-referrer" />
+                  <img src={item.image_url} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
                 </div>
               )}
             </div>

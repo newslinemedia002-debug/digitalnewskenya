@@ -15,7 +15,7 @@ export default function WireCard({ item, variant = 'card' }) {
     <article className={`${styles.card} ${styles[variant]}`}>
       {showImage && item.image_url && (
         <Link href={href} className={styles.cardMedia} tabIndex={-1} aria-hidden="true">
-          <img src={item.image_url} alt="" loading="lazy" referrerPolicy="no-referrer" />
+          <img src={item.image_url} alt={item.title} loading="lazy" referrerPolicy="no-referrer" />
         </Link>
       )}
       <h3 className={styles.cardTitle}>

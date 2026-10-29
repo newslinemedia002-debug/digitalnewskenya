@@ -175,3 +175,20 @@ Google verification token: `public/google363e6b1edc90e531.html`
 - **Measuring:** AI traffic lands in Search Console's Web search type; Bing Webmaster
   Tools has an AI Performance report with citation counts.
 
+## Step 10 — Discovery & preview additions (second research pass)
+
+| Addition | Where | Why |
+| --- | --- | --- |
+| Google News sitemap `/sitemap-news.xml` | `app/sitemap-news.xml/route.js` | Rolling 48-hour window with `news:` publication/title/date tags; declared as a second `Sitemap:` line in `robots.js`, submit in Search Console |
+| Robots preview hints | `app/layout.js` metadata | `max-image-preview:large` (Discover/image previews), `max-snippet:-1` (Google chooses snippet length; also applies to AI Overviews/AI Mode input) |
+| IndexNow | `lib/indexnow.js` + `public/{key}.txt` | Ping on publish/approve from dashboard + admin actions so Bing, Naver, Seznam, Yandex and Yep learn new URLs instantly (Google does not participate) |
+| RSS autodiscovery | `alternates.types` on layout + every page that sets its own `alternates` | `<link rel="alternate" type="application/rss+xml">` in `<head>` for readers/feed readers |
+| Descriptive image alt text | StoryCard, WireCard, FeedList, HeadlineRow | Card thumbnails now carry the headline as alt — image SEO + accessibility |
+
+**Deliberately skipped after research:** speakable schema (Assistant-only beta), a web
+manifest for Discover (Google says no manifest requirement), blanket VideoObject
+markup (only for real watch pages), C2PA (not a ranking factor). Google also states
+`llms.txt` is ignored for Google ranking — it stays for other AI systems.
+
+**After deploy:** submit `/sitemap-news.xml` in Search Console → Sitemaps.
+

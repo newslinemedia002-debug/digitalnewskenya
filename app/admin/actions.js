@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { requireAdmin } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/server'
+import { pingIndexNow } from '@/lib/indexnow'
 
 function go(path, params = {}) {
   const qs = new URLSearchParams(params).toString()
@@ -97,7 +98,15 @@ export async function moderateArticle(formData) {
       op === 'publish'
         ? { status: 'published', published_at: new Date().toISOString() }
         : { status: 'draft' }
-    const { error } = await admin.from('articles').update(patch).eq('id', id)
+    const { data: updated, error } = await admin
+      .from('articles')
+      .update(patch)
+      .eq('id', id)
+      .select('slug')
+      .single()
+    if (!error && op === 'publish' && updated?.slug) {
+      await pingIndexNow([`/news/${updated.slug}`])
+    }
     go('/admin/articles', error ? { error: error.message } : { ok: `Article ${op}ed.` })
   }
 

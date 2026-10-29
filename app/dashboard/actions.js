@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { requireUser } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/server'
 import { uniqueSlug } from '@/lib/articles'
+import { pingIndexNow } from '@/lib/indexnow'
 
 const CATEGORIES = ['kenya', 'world', 'africa', 'business', 'tech', 'entertainment']
 
@@ -86,7 +87,7 @@ export async function updateArticle(id, prevState, formData) {
 
   const { data: existing } = await supabase
     .from('articles')
-    .select('id, cover_image_url, status')
+    .select('id, slug, cover_image_url, status')
     .eq('id', id)
     .maybeSingle()
   if (!existing) return { error: 'Article not found, or you do not own it.' }
@@ -118,6 +119,8 @@ export async function updateArticle(id, prevState, formData) {
 
   const { error } = await supabase.from('articles').update(patch).eq('id', id)
   if (error) return { error: `Could not update article: ${error.message}` }
+
+  if (patch.status === 'published') await pingIndexNow([`/news/${existing.slug}`])
 
   revalidatePath('/', 'layout')
   redirect('/dashboard?updated=1')
