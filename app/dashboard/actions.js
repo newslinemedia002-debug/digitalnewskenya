@@ -128,8 +128,17 @@ export async function updateArticle(id, prevState, formData) {
 
 export async function deleteArticle(id) {
   const { supabase } = await requireUser('/dashboard')
+  const { data: existing } = await supabase
+    .from('articles')
+    .select('slug')
+    .eq('id', id)
+    .maybeSingle()
   const { error } = await supabase.from('articles').delete().eq('id', id)
   if (error) redirect(`/dashboard?error=${encodeURIComponent(error.message)}`)
+  // The URL now 404s. IndexNow accepts 404/410 submissions precisely for this,
+  // so tell Bing/Yandex/Seznam/Naver the page is gone now rather than waiting
+  // for them to re-crawl a dead link and report it as broken.
+  if (existing?.slug) await pingIndexNow([`/news/${existing.slug}`])
   revalidatePath('/', 'layout')
   redirect('/dashboard?deleted=1')
 }
@@ -140,8 +149,18 @@ export async function setOwnStatus(id, status) {
   if (!['draft', 'pending'].includes(status)) {
     redirect(`/dashboard?error=${encodeURIComponent('Invalid status.')}`)
   }
+  const { data: existing } = await supabase
+    .from('articles')
+    .select('slug, status')
+    .eq('id', id)
+    .maybeSingle()
   const { error } = await supabase.from('articles').update({ status }).eq('id', id)
   if (error) redirect(`/dashboard?error=${encodeURIComponent(error.message)}`)
+  // Withdrawing a published article un-publishes it: the public URL 404s from
+  // here on, so notify the same way a delete does.
+  if (existing?.status === 'published' && existing.slug) {
+    await pingIndexNow([`/news/${existing.slug}`])
+  }
   revalidatePath('/', 'layout')
   redirect(status === 'pending' ? '/dashboard?submitted=1' : '/dashboard?withdrawn=1')
 }

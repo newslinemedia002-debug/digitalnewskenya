@@ -89,7 +89,14 @@ export async function moderateArticle(formData) {
   const admin = createAdminClient()
 
   if (op === 'delete') {
+    const { data: existing } = await admin
+      .from('articles')
+      .select('slug')
+      .eq('id', id)
+      .maybeSingle()
     const { error } = await admin.from('articles').delete().eq('id', id)
+    // Deleted URL 404s — submit that fact to IndexNow (Bing et al.) right away.
+    if (!error && existing?.slug) await pingIndexNow([`/news/${existing.slug}`])
     go('/admin/articles', error ? { error: error.message } : { ok: 'Article deleted.' })
   }
 
@@ -104,7 +111,9 @@ export async function moderateArticle(formData) {
       .eq('id', id)
       .select('slug')
       .single()
-    if (!error && op === 'publish' && updated?.slug) {
+    if (!error && updated?.slug) {
+      // publish -> brand-new URL to index; unpublish -> the URL now 404s.
+      // IndexNow supports both directions, so ping either way.
       await pingIndexNow([`/news/${updated.slug}`])
     }
     go('/admin/articles', error ? { error: error.message } : { ok: `Article ${op}ed.` })

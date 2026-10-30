@@ -24,10 +24,19 @@ const AI_CRAWLERS = [
   'Applebot-Extended',
 ]
 
+// Bing is the #2 engine in Kenya (~2.6%) and DuckDuckGo, Yahoo and Brave all
+// lean on its index, so Bingbot coverage is the whole non-Google game.
+// Bing's own guidance is that sites must allow Bingbot in robots.txt for
+// IndexNow submissions to pay off, so we name the group explicitly rather
+// than relying on it falling through to '*'. adidxbot is Bing's ads crawler
+// and DuckDuckBot is DuckDuckGo's residual independent crawler.
+const SEARCH_CRAWLERS = ['Bingbot', 'adidxbot', 'DuckDuckBot', 'Yahoo! Slurp']
+
 export default function robots() {
   return {
     rules: [
       ...AI_CRAWLERS.map((userAgent) => ({ userAgent, allow: '/', disallow: PRIVATE })),
+      ...SEARCH_CRAWLERS.map((userAgent) => ({ userAgent, allow: '/', disallow: PRIVATE })),
       {
         userAgent: '*',
         allow: '/',
