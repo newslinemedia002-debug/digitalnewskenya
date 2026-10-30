@@ -29,8 +29,10 @@ const AI_CRAWLERS = [
 // Bing's own guidance is that sites must allow Bingbot in robots.txt for
 // IndexNow submissions to pay off, so we name the group explicitly rather
 // than relying on it falling through to '*'. adidxbot is Bing's ads crawler
-// and DuckDuckBot is DuckDuckGo's residual independent crawler.
-const SEARCH_CRAWLERS = ['Bingbot', 'adidxbot', 'DuckDuckBot', 'Yahoo! Slurp']
+// and DuckDuckBot is DuckDuckGo's residual independent crawler. YandexBot is
+// Yandex's only crawler — the '*' group would allow it anyway, but naming it
+// keeps the intent readable and survives any future default-rule change.
+const SEARCH_CRAWLERS = ['Bingbot', 'adidxbot', 'DuckDuckBot', 'Yahoo! Slurp', 'YandexBot']
 
 export default function robots() {
   return {
