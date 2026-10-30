@@ -39,6 +39,11 @@ export const metadata = {
   alternates: {
     types: { 'application/rss+xml': '/feed.xml' },
   },
+  // Search-engine ownership checks (Yandex Webmaster; Bing is verified by
+  // GSC import, so it needs no tag here).
+  verification: {
+    yandex: '69e1624ebc652ca9',
+  },
   openGraph: {
     siteName: SITE_NAME,
     type: 'website',
