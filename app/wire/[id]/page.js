@@ -31,6 +31,12 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
+    // Wire pages exist so readers can stay on-site and read a credited
+    // summary, but they are not our reporting: the full article lives at the
+    // publisher's URL. Keeping them out of the index stops them duplicating
+    // that publisher, and stops the URLs that rotate out of the feed from
+    // piling up as 404s in Search Console.
+    robots: { index: false, follow: true },
     alternates: { canonical: url },
     openGraph: {
       title,

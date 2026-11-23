@@ -19,10 +19,19 @@ export async function generateMetadata({ params }) {
 
   const image = absUrl(article.cover_image_url)
   const url = `/news/${article.slug}`
+  // Some stories are filed without an excerpt. Fall back to the opening of the
+  // body so the page still ships a real description instead of an empty one.
+  const description =
+    article.excerpt ||
+    String(article.content || '')
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 155)
 
   return {
     title: article.title,
-    description: article.excerpt,
+    description,
     alternates: {
       canonical: url,
       types: { 'application/rss+xml': '/feed.xml' },

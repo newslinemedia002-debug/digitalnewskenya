@@ -7,7 +7,7 @@ import {
   getByCategory,
 } from '@/lib/articles'
 import { loadWire } from '@/lib/feeds'
-import { CATEGORIES, categoryLabel, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, absUrl } from '@/lib/site'
+import { CATEGORIES, categoryLabel, SITE_NAME, SITE_DESCRIPTION, absUrl } from '@/lib/site'
 import StoryCard from '@/components/StoryCard'
 import WireCard from '@/components/WireCard'
 import MixedGrid, { mixGrid } from '@/components/MixedGrid'
@@ -26,8 +26,12 @@ export async function generateMetadata() {
   ])
   const lead = featured || breaking || (await getLatest(supabase, { limit: 1 }))[0] || null
 
-  const title = lead ? lead.title : `${SITE_NAME} — ${SITE_TAGLINE}`
-  const description = lead ? lead.excerpt : SITE_DESCRIPTION
+  // The homepage keeps one stable, brand-led title and description. Letting it
+  // inherit the rotating lead story's headline meant the front page competed
+  // with - and duplicated - whichever article happened to lead that hour, so
+  // nothing targeted the brand or the "kenya news today" head term.
+  const title = `${SITE_NAME} — Kenya News, Breaking News and World Headlines`
+  const description = SITE_DESCRIPTION
   const image = lead ? absUrl(lead.cover_image_url) : null
 
   const og = {
@@ -37,11 +41,12 @@ export async function generateMetadata() {
     siteName: SITE_NAME,
     type: 'website',
     locale: 'en_KE',
-    ...(image ? { images: [{ url: image, width: 1200, height: 675, alt: lead.title }] } : {}),
+    ...(image ? { images: [{ url: image, width: 1200, height: 675, alt: lead?.title || SITE_NAME }] } : {}),
   }
 
   return {
-    title,
+    // Absolute: the layout template already appends "| Digital News Kenya".
+    title: { absolute: title },
     description,
     alternates: {
       canonical: '/',

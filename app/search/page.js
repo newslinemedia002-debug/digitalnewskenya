@@ -8,6 +8,9 @@ export const dynamic = 'force-dynamic'
 export const metadata = {
   title: 'Search',
   description: 'Search published stories on Digital News Kenya.',
+  // Internal search results are thin, query-driven pages: keep them crawlable
+  // (follow) but out of the index.
+  robots: { index: false, follow: true },
   alternates: {
     canonical: '/search',
     types: { 'application/rss+xml': '/feed.xml' },
